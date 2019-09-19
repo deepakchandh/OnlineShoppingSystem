@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Seller page 2</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+      <link rel="stylesheet" href="css/style.css">
+
+</head>
+<body>
+
+ 
+<style>
+table,th,td {
+  border : 1px solid black;
+  border-collapse: collapse;
+}
+th,td {
+  padding: 5px;
+}
+</style>
+
+<center><h1>Items in cart</h1></center>
+ <p id="demo"></p>
+
+<a class='btn btn-success'style='text-align: left;' href='page2.html' role='button'>purchase products</a>
+<a class='btn btn-warning'style='text-align: right;' href='index.html' role='button'>Go Back</a>
+
+
+<script>
+var uid=1;
+var obj, dbParam, xmlhttp, myObj, x, txt = "";
+obj = { table: "customers", limit: 20 };
+dbParam = JSON.stringify(obj);
+xmlhttp = new XMLHttpRequest();
+xmlhttp.onreadystatechange = function() {
+  if (this.readyState == 4 && this.status == 200) {
+    myObj = JSON.parse(this.responseText);
+    txt += "<table class='dataTable'>"
+    	txt+="<tr><th>UID</th><th>PID</th><th>Quantity</th><th>Price</th></tr>";
+    
+    for (x in myObj) {
+      txt += 
+    	  "<tr><td>" + myObj[x].uid + "</td>"+
+    	  "<td>" + myObj[x].pid + "</td>"+
+    	  "<td>" + myObj[x].quan + "</td>"+
+    	  "<td>" + myObj[x].price + "</td></tr>";
+    	  
+    	  
+    }
+    txt += "</table>"    
+    document.getElementById("demo").innerHTML = txt;
+  }
+};
+xmlhttp.open("GET", "/Task/webapi/user/cart/"+uid, true);
+xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+xmlhttp.send("x=" + dbParam);
+</script>
+
+</body>
+</html>
+
+

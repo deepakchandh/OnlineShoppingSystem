@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Seller page 2</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+      <link rel="stylesheet" href="css/style.css">
+
+</head>
+<body>
+
+ 
+<style>
+table,th,td {
+  border : 1px solid black;
+  border-collapse: collapse;
+}
+th,td {
+  padding: 5px;
+}
+</style>
+ <!--  
+<button type="button" onclick="loadDoc()">Get Product List</button>
+<br><br>
+<table id="demo"></table>
+
+<script>
+function loadDoc() {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      myFunction(this);
+    }
+  };
+  xhttp.open("GET", "/Task/webapi/products", true);
+  xhttp.send();
+}
+function myFunction(xml) {
+  var i;
+  var xmlDoc = xml.responseXML;
+  var table="<tr><th>ID</th><th>Name</th><th>Stock</th><th>Price</th><th>SellerID</th><th>Users</th><th>Rating</th></tr>";
+  var x = xmlDoc.getElementsByTagName("product");
+  for (i = 0; i <x.length; i++) { 
+    table += "<tr><td>" +
+    x[i].getElementsByTagName("pid")[0].childNodes[0].nodeValue +
+    "</td><td>" +
+    x[i].getElementsByTagName("pname")[0].childNodes[0].nodeValue +
+    "</td><td>"+
+    x[i].getElementsByTagName("stock")[0].childNodes[0].nodeValue +
+    "</td><td>"+
+    x[i].getElementsByTagName("price")[0].childNodes[0].nodeValue +
+    "</td><td>"+
+    x[i].getElementsByTagName("sid")[0].childNodes[0].nodeValue +
+    "</td><td>"+
+    x[i].getElementsByTagName("noofusers")[0].childNodes[0].nodeValue +
+    "</td><td>"+
+    x[i].getElementsByTagName("prating")[0].childNodes[0].nodeValue +
+    "</td></tr>";   
+  }
+  document.getElementById("demo").innerHTML = table;
+}
+</script>  
+-->
+<!--  
+<p id="demo"></p>
+
+<script>
+var xmlhttp = new XMLHttpRequest();
+xmlhttp.onreadystatechange = function() {
+  if (this.readyState == 4 && this.status == 200) {
+    var myObj = JSON.parse(this.responseText);
+    document.getElementById("demo").innerHTML = myObj.pname;
+  }
+};
+xmlhttp.open("GET", "/Task/webapi/products", true);
+xmlhttp.send();
+</script>
+-->
+<!--  
+<p id="demo"></p>
+
+<script>
+var xmlhttp = new XMLHttpRequest();
+xmlhttp.onreadystatechange = function() {
+  if (this.readyState == 4 && this.status == 200) {
+    var myArr = JSON.parse(this.responseText);
+    document.getElementById("demo").innerHTML = myArr[0].pname;
+  }
+};
+xmlhttp.open("GET", "/Task/webapi/products", true);
+xmlhttp.send();
+</script>-->
+ <p id="demo"></p>
+
+
+<script>
+var obj, dbParam, xmlhttp, myObj, x, txt = "";
+obj = { table: "customers", limit: 20 };
+dbParam = JSON.stringify(obj);
+xmlhttp = new XMLHttpRequest();
+xmlhttp.onreadystatechange = function() {
+  if (this.readyState == 4 && this.status == 200) {
+    myObj = JSON.parse(this.responseText);
+    txt+="<center><h1>Product List</h1></center>";
+    txt += "<table class='dataTable'>"
+    	txt+="<tr><th>ID</th><th>Name</th><th>Stock</th><th>Price</th><th>SellerID</th><th>Users</th><th>Rating</th></tr>";
+    
+    for (x in myObj) {
+      txt += 
+    	  "<tr><td>" + myObj[x].pid + "</td>"+
+    	  "<td>" + myObj[x].pname + "</td>"+
+    	  "<td>" + myObj[x].stock + "</td>"+
+    	  "<td>" + myObj[x].price + "</td>"+
+    	  "<td>" + myObj[x].sid + "</td>"+
+    	  "<td>" + myObj[x].noofusers + "</td>"+
+    	  "<td>" + myObj[x].prating + "</td></tr>";
+    	  
+    	  
+    }
+    txt += "</table>"    
+    document.getElementById("demo").innerHTML = txt;
+  }
+};
+xmlhttp.open("GET", "/Task/webapi/products", true);
+xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+xmlhttp.send("x=" + dbParam);
+</script>
+<a class='btn btn-success'style='text-align: left;' href='page2.html' role='button'>purchase products</a>
+<a class='btn btn-warning'style='text-align: right;' href='showcart.html' role='button' >showcart</a>
+<a class='btn btn-warning'style='text-align: right;' href='index.html' role='button'>Go Back</a>
+</body>
+</html>
+
+

@@ -1,0 +1,94 @@
+Queries
+
+primary key-
+create table user_credentials(uid integer primary key,uname varchar(30),password varchar(30));
+// make username as unique
+alter table user_credentials modify password binary(64);
+
+
+
+Foreign key, primary key and Auto Increment-
+create table user_details(uid integer,aid integer not null auto_increment,pincode integer, address varchar(45),
+ phoneno integer, foreign key (uid) references user_credentials(uid),primary key(aid));
+
+Foreign key 
+create table users(uid integer,uname varchar(30), email varchar(30), 
+foreign key (uid) references user_credentials(uid));
+
+create table seller(sid integer,sname varchar(30), email varchar(30), 
+foreign key (sid) references seller_credentials(sid));
+// auto inc
+
+ create table seller_details(sid integer,asid integer not null auto_increment,pincode integer, address varchar(45), phoneno integer, 
+foreign key (sid) references seller_credentials(sid),primary key(asid));
+
+create table products(pid integer primary key, pname varchar(30), stock integer, price integer,sid integer,noofusers integer,
+prodrating integer, foreign key(sid) references seller_credentials(sid));
+
+create table cart(uid integer, pid integer, quantity integer, price integer,foreign key(uid) 
+references user_credentials(uid),foreign key(pid) references products(pid),primary key(uid,pid));
+
+create table bill(bid integer primary key,uid integer,ts timestamp,
+mop varchar(30), foreign key(uid) references user_credentials(uid));
+
+create table order_history(bid integer,uid integer,pid integer, quantity integer,rtrnquan integer,aid integer,
+foreign key(bid) references bill(bid),foreign key(uid) references user_credentials(uid),foreign key(pid) references 
+products(pid),foreign key(aid) references user_details(aid),primary key(bid,uid,pid));
+
+
+create table ord_history(bid integer,uid integer,pid integer, quantity integer,rtrnquan integer,price integer,
+foreign key(bid) references bils(bid),foreign key(uid) references user_credentials(uid),foreign key(pid) references 
+products(pid),primary key(bid,uid,pid));
+
+create table wishlist(uid integer, pid integer, foreign key(uid) references user_credentials(uid),foreign key(pid) references products(pid));
+
+(SELECT count(*) FROM user_credentials WHERE uname = "deepak" AND password = "admin19");
+
+(SELECT count(*) FROM user_credentials WHERE uname = "deepak" AND password = "deepak");
+
+insert into user_details(uid,pincode,address,phoneno) values(2,625004,"tepakulam madurai",9892131331);
+
+alter table seller_credentials modify column password varchar(30);
+
+alter table seller_credentials modify column password varchar(30);
+
+update products set noofusers=23, prodrating=4 where pid=1;
+
+INSERT INTO Customers (CustomerName, City, Country)
+SELECT SupplierName, City, Country FROM Suppliers;
+
+update bils set uid=2 where bid=1;
+
+
+with as A select pid,sum(qty) as qt  from order_history group by pid;
+
+19.1.2019
+
+--most sold products----
+---view--
+->create view t1 as select pid,sum(quantity) as qty from ord_history group by pid;
+ select pid from t1 where qty in (select max(qty) from t1);
+
+
+----- for finding the user name and the bills he paid.(by using inner join) --------
+
+ select user_credentials.uid,user_credentials.uname, bils.bid,bils.totprice from user_credentials,bils where bils.uid=user_credentials.uid;
+
+select * from users natural join bils;
+
+
+--> select a.uid,a.uname,b.bid,b.totprice from user_credentials as a inner join bils as b where b.uid=a.uid
+
+-- based on specified time--
+select user_credentials.uid,user_credentials.uname, bils.bid,bils.totprice from user_credentials,bils where bils.uid=user_credentials.uid 
+and bils.ts >= '2019-01-19 07:30:00' AND bils.ts <= '2019-01-19 23:30:00' order by uid;
+
+---- Querying based on specified time stamp ---
+select * from bils WHERE ts >= '2019-01-18 07:30:00' AND ts <= '2019-01-19 08:30:00';
+
+
+--- all users and their billing details, if null giving null---
+
+ select * from users left join bils on users.uid = bils.uid;
+
+

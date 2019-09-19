@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+  <meta charset="UTF-8">
+  <title>User Login Form</title>
+  
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+      <link rel="stylesheet" href="css/style.css">
+
+  
+</head>
+
+<body>
+  <div class="login-page">
+  <div class="form">
+    <form class="register-form" method="post" action="/Task/webapi/seller/signup">
+       <center> <h1> Sign <span class="badge badge-secondary">up</span></h1></center>
+       <br>
+        <input type="text" placeholder="Unique user id" name="id"/>
+      <input type="text" placeholder="name" name="name"/>
+      <input type="password" placeholder="password" name="password" />
+     
+      <button>create</button>
+      <p class="message">Already registered? <a href="#">Sign In</a></p>
+    </form>
+     <form class="login-form" method="post"  name="myform" >
+     <center> <h1> Sign <span class="badge badge-secondary">in</span></h1></center>
+     <br>
+       <input type="text" placeholder="username"  name="uname" required/>
+      <input type="password" placeholder="password" name="password"/>
+     <!--  <input type="text" placeholder="type" name="one"/> -->
+      <br> 
+      <button onclick="validate()">login</button>
+        <p class="message">Not registered? <a href="#">Create an account</a></p>
+         <p class="message">Are you a user? <a href="index.html">Sign in here</a></p>
+    </form>
+     </form>
+  </div>
+</div>
+  <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+
+  
+
+    <script  src="js/index.js"></script>
+<div id="a1"></div>
+    <script>
+    function validate() {
+    	var a = document.forms["myform"].elements["uname"].value;
+        var b = document.forms["myform"].elements["password"].value;
+        var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4) {
+                	
+                    var data = xhr.responseText;
+                    console.log(data);
+                    if(data == "true"){
+                    window.location="products.html";
+                    }
+                    else{
+                    document.getElementById("a1").innerHTML="incorrect password or username";
+                    }
+                }
+            }
+            xhr.open('POST', '/Task/webapi/seller/login?uname='+a+'&password='+b, true);
+            xhr.send();
+    	}
+    </script>
+
+
+
+</body>
+
+</html>
