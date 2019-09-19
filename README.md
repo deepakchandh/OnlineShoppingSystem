@@ -8,4 +8,4 @@
  **REST API** - UserResource.java , SellerResource.java , ProductResource.java
  
  
- Find the REST API docs in Resturl file
+ Find the REST API docs in Resturls file
